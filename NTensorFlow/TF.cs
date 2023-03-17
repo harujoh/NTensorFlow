@@ -1,5 +1,6 @@
 ﻿using NConstrictor;
 using System;
+using System.IO;
 
 namespace NTensorFlow
 {
@@ -223,23 +224,39 @@ namespace NTensorFlow
                     _tf.saved_model.simple_save(sess, export_dir, (PyObject)inputDict, (PyObject)outputDict);
                 }
 
-                public static void SimpleSave(Session sess, PyObject export_dir, PyDict inputs, PyDict outputs)
+                public static void SimpleSave(Session sess, string export_dir, PyDict inputs, PyDict outputs)
                 {
+                    if (Directory.Exists(export_dir))
+                    {
+                        throw new Exception(export_dir + "は既に同名のフォルダが存在します");
+                    }
                     _tf.saved_model.simple_save(sess, export_dir, (PyObject)inputs, (PyObject)outputs);
                 }
 
-                public static void SimpleSave(Session sess, PyObject export_dir, PyObject[] inputs, PyObject output)
+                public static void SimpleSave(Session sess, string export_dir, PyObject[] inputs, PyObject output)
                 {
+                    if (Directory.Exists(export_dir))
+                    {
+                        throw new Exception(export_dir + "は既に同名のフォルダが存在します");
+                    }
                     SimpleSave(sess,export_dir,inputs, new[] { output });
                 }
 
-                public static void SimpleSave(Session sess, PyObject export_dir, PyObject input, PyObject[] outputs)
+                public static void SimpleSave(Session sess, string export_dir, PyObject input, PyObject[] outputs)
                 {
+                    if (Directory.Exists(export_dir))
+                    {
+                        throw new Exception(export_dir + "は既に同名のフォルダが存在します");
+                    }
                     SimpleSave(sess, export_dir, new[] { input }, outputs);
                 }
 
-                public static void SimpleSave(Session sess, PyObject export_dir, PyObject input, PyObject output)
+                public static void SimpleSave(Session sess, string export_dir, PyObject input, PyObject output)
                 {
+                    if(Directory.Exists(export_dir))
+                    {
+                        throw new Exception(export_dir + "は既に同名のフォルダが存在します");
+                    }
                     SimpleSave(sess, export_dir, new[] { input }, new []{ output });
                 }
             }

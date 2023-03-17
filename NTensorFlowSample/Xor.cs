@@ -56,7 +56,7 @@ namespace NTensorFlowSample
                 }
             }
 
-            PyObject path = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Models").Replace("\\", "\\\\");
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Models").Replace("\\", "\\\\");
             TF.Train.SavedModel.SimpleSave(sess, path, x, loss);
         }
     }
