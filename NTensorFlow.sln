@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NTensorFlow", "NTensorFlow\NTensorFlow.csproj", "{BB423429-A54B-4C3C-8C23-9A7EB31EEF07}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NTensorFlowSample", "NTensorFlowSample\NTensorFlowSample.csproj", "{0474E49B-E52B-47C7-BA8B-3DE33F1D5587}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NTensorFlow", "NTensorFlow\NTensorFlow.csproj", "{BB423429-A54B-4C3C-8C23-9A7EB31EEF07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BB423429-A54B-4C3C-8C23-9A7EB31EEF07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BB423429-A54B-4C3C-8C23-9A7EB31EEF07}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BB423429-A54B-4C3C-8C23-9A7EB31EEF07}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BB423429-A54B-4C3C-8C23-9A7EB31EEF07}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0474E49B-E52B-47C7-BA8B-3DE33F1D5587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0474E49B-E52B-47C7-BA8B-3DE33F1D5587}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0474E49B-E52B-47C7-BA8B-3DE33F1D5587}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0474E49B-E52B-47C7-BA8B-3DE33F1D5587}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB423429-A54B-4C3C-8C23-9A7EB31EEF07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB423429-A54B-4C3C-8C23-9A7EB31EEF07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB423429-A54B-4C3C-8C23-9A7EB31EEF07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB423429-A54B-4C3C-8C23-9A7EB31EEF07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

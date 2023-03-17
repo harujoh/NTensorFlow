@@ -15,7 +15,7 @@ namespace NTensorFlowSample
             float dropout = 0.5f;
 
             var mnist = new TF.Keras.Datasets.MNIST();
-            PyArray<double> TrainImages = (PyArray<double>)(mnist.xTrain.Reshape(60000, 784) / 255d);// float32/float32以外の戻り値はfloat64になる
+            PyArray<double> TrainImages = (PyArray<double>)(mnist.xTrain.Reshape(60000, 784) / 255d);// float32/float32以外の演算の戻り値はfloat64になる
             PyArray<double> TestImages = (PyArray<double>)(mnist.xTest.Reshape(10000, 784) / 255d);
 
             Func<PyArray<byte>, PyArray<float>> ToCategorical = TF.Keras.Utils.ToCategorical;
@@ -61,7 +61,7 @@ namespace NTensorFlowSample
 
             // 教師信号
             var t = new PlaceHolder<float>(Py.None, 10);
-
+            
             // 誤差関数
             var b = t * TF.Log(outData);
             var a = -TF.ReduceSum(b, axis: new PyList { 1 });

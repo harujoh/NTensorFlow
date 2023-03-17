@@ -196,6 +196,53 @@ namespace NTensorFlow
                     _optimizer = (PyDynamic)_tf.train.GradientDescentOptimizer(learningRate);
                 }
             }
+
+            public static class SavedModel
+            {
+                //https://www.tensorflow.org/api_docs/python/tf/compat/v1/saved_model/load
+                public static void Load(Session sess, PyDict tags, string export_dir)
+                {
+                    _tf.saved_model.load((PyObject)sess, tags, export_dir);
+                }
+
+                //https://www.tensorflow.org/api_docs/python/tf/compat/v1/saved_model/simple_save
+                public static void SimpleSave(PyObject sess, PyObject export_dir, PyObject[] inputs, PyObject[] outputs)
+                {
+                    PyDict inputDict = new PyDict();
+                    for (int i = 0; i < inputs.Length; i++)
+                    {
+                        inputDict[Python.GetName(inputs[i])] = inputs[i];
+                    }
+
+                    PyDict outputDict = new PyDict();
+                    for (int i = 0; i < outputs.Length; i++)
+                    {
+                        outputDict[Python.GetName(outputs[i])] = outputs[i];
+                    }
+
+                    _tf.saved_model.simple_save(sess, export_dir, (PyObject)inputDict, (PyObject)outputDict);
+                }
+
+                public static void SimpleSave(Session sess, PyObject export_dir, PyDict inputs, PyDict outputs)
+                {
+                    _tf.saved_model.simple_save(sess, export_dir, (PyObject)inputs, (PyObject)outputs);
+                }
+
+                public static void SimpleSave(Session sess, PyObject export_dir, PyObject[] inputs, PyObject output)
+                {
+                    SimpleSave(sess,export_dir,inputs, new[] { output });
+                }
+
+                public static void SimpleSave(Session sess, PyObject export_dir, PyObject input, PyObject[] outputs)
+                {
+                    SimpleSave(sess, export_dir, new[] { input }, outputs);
+                }
+
+                public static void SimpleSave(Session sess, PyObject export_dir, PyObject input, PyObject output)
+                {
+                    SimpleSave(sess, export_dir, new[] { input }, new []{ output });
+                }
+            }
         }
 
         /*
@@ -208,6 +255,12 @@ namespace NTensorFlow
             return _tf.group(inputs, kwArgs);
         }
 
+        //入力と同じ形状と内容を持つ Tensor を返します
+        public static PyObject Identity(PyObject input)
+        {
+            return _tf.identity(input);
+        }
+
         //with句で使用される
         //こちらは順番が制御されるがGroupは毎回挙動が異なるらしい
         // https://qiita.com/jack_ama/items/6722df977f531124026d
@@ -218,7 +271,6 @@ namespace NTensorFlow
 
         public static PyObject Cast<T>(PyObject x)
         {
-            var test = Dtype.GetDtype(typeof(T));
             return _tf.cast(x, Dtype.GetDtype(typeof(T)));
         }
 
@@ -314,13 +366,17 @@ namespace NTensorFlow
             return _tf.random.truncated_normal((PyArray<int>)shape, feed_dict);
         }
 
-
         public static void DebugInitialize(bool writeLog = false)
         {
             if (writeLog) Console.WriteLine("Currently warming up TensorFlow.");
+
             PyDynamic tf = PyImport.ImportModule("tensorflow.compat.v1");
             Python.Main["tf"] = tf;
             _tf = tf;
+
+            //deprecationのメッセージが出力されると、そのメッセージが原因で関数が実行されないことがあるため停止
+            dynamic deprecation = (PyDynamic)PyImport.ImportModule("tensorflow.python.util.deprecation");
+            deprecation._PRINT_DEPRECATION_WARNINGS = false;
 
             _tf.disable_v2_behavior();
 
@@ -380,9 +436,13 @@ tf.get_logger().setLevel(logging.ERROR)", false);
             //_tf["autograph"]["set_verbosity"].Call(0);
             //_tf["get_logger"].Call()["setLevel"].Call(Python.Logging["ERROR"]);
 
+            //deprecationのメッセージが出力されると、そのメッセージが原因で関数が実行されないことがあるため停止
+            dynamic deprecation = (PyDynamic)PyImport.ImportModule("tensorflow.python.util.deprecation");
+            deprecation._PRINT_DEPRECATION_WARNINGS = false;
+
             _tf.disable_v2_behavior();
 
-            //disable_v2_behaviorで実行される
+            //disable_v2_behaviorで実行されるので不要
             //_tf["disable_eager_execution"].Call();
             //_tf["disable_resource_variables"].Call();
 

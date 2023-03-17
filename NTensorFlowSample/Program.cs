@@ -10,12 +10,17 @@ namespace NTensorFlowSample
         {
             Python.Initialize(true);
             TF.Initialize(true);
+            //TF.DebugInitialize(true);
 
             Xor.Run();
-            MnistCnn.Run();
+            //MnistCnn.Run();
+
+            //何かエラーがあれば表示する
+            PyErr.Print();
 
             Console.WriteLine("Done.");
             Console.Read();
+
         }
     }
 }

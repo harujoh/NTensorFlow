@@ -51,6 +51,11 @@ namespace NTensorFlow
             return (PyList)_session.run(fetches);
         }
 
+        public static implicit operator PyObject(Session session)
+        {
+            return session._session;
+        }
+
         public void Close()
         {
             _session.close();

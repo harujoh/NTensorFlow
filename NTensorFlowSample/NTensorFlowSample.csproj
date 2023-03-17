@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NConstrictor" Version="0.13.0" />
+    <PackageReference Include="NConstrictor" Version="0.13.2" />
   </ItemGroup>
 
   <ItemGroup>

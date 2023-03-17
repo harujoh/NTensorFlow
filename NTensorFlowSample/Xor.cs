@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using NConstrictor;
 using NTensorFlow;
 
@@ -9,7 +11,6 @@ namespace NTensorFlowSample
     {
         public static void Run()
         {
-
             const int HIDDEN_NODES = 10;
 
             var x = new PlaceHolder<float>(Py.None, 2);
@@ -31,6 +32,9 @@ namespace NTensorFlowSample
             var optimizer = new TF.Train.GradientDescentOptimizer(0.2);
             var trainOp = optimizer.Minimize(loss);
 
+            //Tensorに可換ではないためダメ
+            //PyObject outputTensor = TF.Identity(trainOp);
+
             var sess = new Session();
 
             PyArray<float> xTrain = new float[,] { { 0, 0 }, { 0, 1 }, { 1, 0 }, { 1, 1 } };
@@ -44,13 +48,16 @@ namespace NTensorFlowSample
                 {
                     Python.Print("Step:", i, "Current loss:", preResult[1]);//結果はlossの値を出力
 
-                    foreach (PyList xInput in new [] { new[] { 0.0f, 0.0f }, new[] { 0.0f, 1.0f }, new[] { 1.0f, 0.0f }, new[] { 1.0f, 1.0f }})
+                    foreach (PyList xInput in new[] { new[] { 0.0f, 0.0f }, new[] { 0.0f, 1.0f }, new[] { 1.0f, 0.0f }, new[] { 1.0f, 1.0f } })
                     {
-                        var gy = sess.Run(y, new PyDict { { x, new PyList{ xInput } } });//受け取り側は2次元なので次元を拡張
+                        var gy = sess.Run(y, new PyDict { { x, new PyList { xInput } } });//受け取り側は2次元なので次元を拡張
                         Python.SimplePrint(xInput, gy);
                     }
                 }
             }
+
+            PyObject path = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Models").Replace("\\", "\\\\");
+            TF.Train.SavedModel.SimpleSave(sess, path, x, loss);
         }
     }
 }
